@@ -4,14 +4,26 @@ import tw from 'twin.macro'
 
 const Container = styled.div`
 ${tw `
- bg-testing-100 min-h-screen text-testing-200 flex flex-col
+ bg-gray-100 min-h-screen flex flex-col
+ text-gray-900 text-xl
+
 `}
 `
-
+const Header = styled.div`
+${tw `border font-semibold text-center`}
+`
+const Content = styled.div `
+${tw `p-16`}
+`
 export default function Home() {
   return (
     <Container>
-      <div css={tw`font-bold text-xl bg-gray-100 m-64 text-center rounded p-24`}>next.js + twin.macro</div>
+      <Content>
+        <Header>
+            Movies
+        </Header>
+      </Content>
+      
     </Container>
   )
 }
