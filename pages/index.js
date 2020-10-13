@@ -2,10 +2,11 @@ import {useMachine} from '@xstate/react'
 import styled, {css} from 'styled-components'
 import tw from 'twin.macro'
 import appMachine from "../machines/appMachine"
+import MoviesByGenre from '../components/MoviesByGenre'
 const Container = styled.div`
 ${tw `
- bg-gray-100 min-h-screen flex flex-col
- text-gray-900 text-xl
+ bg-gray-900 min-h-screen flex flex-col
+ text-gray-500 text-xl
 
 `}
 `
@@ -16,11 +17,11 @@ const Content = styled.div `
 ${tw `p-16`}
 `
 const MainContent = styled.div `
-${tw `p-2 bg-gray-200`}
+${tw `p-2 bg-gray-800`}
 `
 export default function Home() {
   const [current, send] = useMachine(appMachine)
-  const {movies, genre} = current.context 
+  const {genres, genre} = current.context 
   return (
     <Container>
       <Content>
@@ -28,10 +29,11 @@ export default function Home() {
             Movies
         </Header>
         <MainContent>
-          <h1>{genre}</h1>
-          {
-            movies? <img src={movies[0].img} /> : 'loading'
-          }
+          <div>
+            {
+              genre ? <MoviesByGenre actor={genre} key={genre.id}/> : null
+            }
+          </div>
         </MainContent>
       </Content>
       
