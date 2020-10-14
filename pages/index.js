@@ -1,3 +1,4 @@
+import React, {useEffect} from 'react'
 import {useMachine} from '@xstate/react'
 import styled, {css} from 'styled-components'
 import tw from 'twin.macro'
@@ -17,11 +18,12 @@ const Content = styled.div `
 ${tw `p-16`}
 `
 const MainContent = styled.div `
-${tw `p-2 bg-gray-800`}
+${tw ``}
 `
 export default function Home() {
   const [current, send] = useMachine(appMachine)
   const {genres, genre} = current.context 
+  useEffect(() => {send('SELECT', {name: 'all'})}, [])
   return (
     <Container>
       <Content>
@@ -31,7 +33,7 @@ export default function Home() {
         <MainContent>
           <div>
             {
-              genre ? <MoviesByGenre actor={genre} key={genre.id}/> : null
+              genre ? <MoviesByGenre service={genre} key={genre.id}/> : null
             }
           </div>
         </MainContent>

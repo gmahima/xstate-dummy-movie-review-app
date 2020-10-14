@@ -1,158 +1,49 @@
-// import {Machine, assign, spawn} from 'xstate'
-// import movies from '../public/movies'
-// import createGenreMachine from './createGenreMachine'
-
-
-// const appMachine = Machine({
-//     id: 'app',
-//     context: {
-//         genre: 'all',
-//         genres: {}
-//     },
-//     initial: 'selected',
-//     states: {
-//         selected: {
-//             initial: 'idle',
-
-//             states: {
-//                 idle: {
-//                   always: {
-//                       target: 'loading'
-//                   }  
-//                 },
-//                 loading: {
-//                     // see invoke vs entry & action vs service
-                    // invoke: assign((context, event) => {
-                    //     console.log("fdfdfgf")
-                    //     let genre= {}
-                    //     if (event || !event.name) {
-                    //         console.log(event, '!!!!!!!!!!!! event !!!!!!')
-                            
-                    //         if(context.genres['all']) {
-                    //             console.log(contex.genres, "from if")
-                    //             return {
-                    //                 ...context,
-                    //                 genre: context.genres['all']
-                    //             }
-                    //         }
-                    //         else {
-                    //             console.log(createGenreMachine)
-                    //             genre = spawn(createGenreMachine('all'))
-                    //             console.log(genre, "from spawn")
-                    //             return {
-                    //                 genres: {
-                    //                     ...context.genres,
-                    //                     ['all']: genre
-                    //                 },
-                    //                 genre
-                    //             }
-                    //         }
-                    //     }
-                    //     genre = context.genres[event.name] 
-                    //     if (genre) {
-                    //         return {
-                    //             ...context,
-                    //             genre
-                    //         }
-                    //     }
-                    //     else {
-                    //         console.log(event)
-                    //         genre = spawn(createGenreMachine(event.name))
-                    //         return {
-                    //             genres: {
-                    //                 ...context.genres,
-                    //                 [event.name]: genre
-                    //             },
-                    //             genre: genre
-                    //         }
-                    //     }
-                    // })
-//                 },
-//                 loaded: {},
-//                 failed: {}
-//             }
-//         }
-//     }
-// })
-
-// export default appMachine
-
 import {Machine, assign, spawn} from 'xstate'
-import movies from '../public/movies'
-import createGenreMachine from './createGenreMachine'
-
+import { resolveActions } from 'xstate/lib/actions'
+import createGenreMachine from '../machines/createGenreMachine'
 
 const appMachine = Machine({
     id: 'app',
+    initial: 'idle',
     context: {
-        genre: 'all',
+        genre: null,
         genres: {}
     },
-    initial: 'selected',
     states: {
-        selected: {
-            initial: 'idle',
+        idle: {
 
-            states: {
-                idle: {
-                  always: {
-                      target: 'loading'
-                  }  
-                },
-                loading: {
-                    entry: assign((context, event) => {
-                        console.log("fdfdfgf")
-                        let genre= {}
-                        if (event || !event.name) {
-                            console.log(event, '!!!!!!!!!!!! event !!!!!!')
-                            
-                            if(context.genres['all']) {
-                                console.log(contex.genres, "from if")
-                                return {
-                                    ...context,
-                                    genre: context.genres['all']
-                                }
-                            }
-                            else {
-                                console.log(createGenreMachine)
-                                genre = spawn(createGenreMachine('all'))
-                                console.log(genre, "from spawn")
-                                return {
-                                    genres: {
-                                        ...context.genres,
-                                        ['all']: genre
-                                    },
-                                    genre
-                                }
-                            }
-                        }
-                        genre = context.genres[event.name] 
-                        if (genre) {
-                            return {
-                                ...context,
-                                genre
-                            }
-                        }
-                        else {
-                            console.log(event)
-                            genre = spawn(createGenreMachine(event.name))
-                            return {
-                                genres: {
-                                    ...context.genres,
-                                    [event.name]: genre
-                                },
-                                genre: genre
-                            }
-                        }
-                    })
-                    // see invoke vs entry & action vs service
-                
-                },
-                loaded: {},
-                failed: {}
-            }
+        },
+        selected: {
+
+        }
+    },
+    on: {
+        SELECT: {
+            target: '.selected',
+            // try without . (internal transition)
+            actions: assign((context, event) => {
+                console.log(event, '!!!!!!!!!!!! event !!!!!!')
+                // subreddit: (context, event)  => event.name
+                let genre = context.genres[event.name]
+                if(genre) {
+                    // try returning without context
+                    // returning just subr dosehnt make a diff
+                    return {
+                        ...context,
+                        genre
+                    }
+                }
+                genre = spawn(createGenreMachine(event.name))
+                console.log(genre)
+                return {
+                    genres: {
+                        ...context.genres,
+                        [event.name]: genre
+                    },
+                    genre
+                }
+            })
         }
     }
 })
-
 export default appMachine

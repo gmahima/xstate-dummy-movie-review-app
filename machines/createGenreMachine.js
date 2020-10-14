@@ -7,7 +7,7 @@ const fetchGenreMovies = (context) => {
             setTimeout(resolve(movies), 10000)
         }
         else {
-            setTimeout(reject("error"), 2000)
+            setTimeout(resolve(movies => movies.filter(m => m.genre.includes(context.genre))), 10000)
         }
     }) 
 }
