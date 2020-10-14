@@ -7,13 +7,13 @@ const fetchGenreMovies = (context) => {
             setTimeout(resolve(movies), 10000)
         }
         else {
-            setTimeout(resolve(movies => movies.filter(m => m.genre.includes(context.genre))), 10000)
+            const filteredMovies = movies.filter(m => m.genre.includes(context.genre))
+            console.log(filteredMovies)
+            setTimeout(resolve(filteredMovies), 10000)
         }
     }) 
 }
 const createGenreMachine = (genre) => {
-    console.log(genre)
-    console.log("hi!!!!!!")
     return Machine({
         id: 'genre',
         initial: 'loading',

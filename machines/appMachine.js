@@ -22,7 +22,6 @@ const appMachine = Machine({
             target: '.selected',
             // try without . (internal transition)
             actions: assign((context, event) => {
-                console.log(event, '!!!!!!!!!!!! event !!!!!!')
                 // subreddit: (context, event)  => event.name
                 let genre = context.genres[event.name]
                 if(genre) {
@@ -34,7 +33,6 @@ const appMachine = Machine({
                     }
                 }
                 genre = spawn(createGenreMachine(event.name))
-                console.log(genre)
                 return {
                     genres: {
                         ...context.genres,

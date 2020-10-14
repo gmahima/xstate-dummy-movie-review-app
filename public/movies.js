@@ -698,6 +698,21 @@ const movies = [{
     "rating": 1,
     "desc": "Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.\n\nCras mi pede, malesuada in, imperdiet et, commodo vulputate, justo. In blandit ultrices enim. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.",
     "img": "http://dummyimage.com/100x100.jpg/dddddd/000000"
-  }]
+}]
 
-  export default movies
+export const genres = [
+  'all',
+  'Crime',
+  'Action',
+  'Drama',
+  'Mystery',
+  'Fantasy',
+  'Thriller',
+  'Comedy',
+  'Children',
+  'Animation',
+  'Sci-Fi',
+  'Horror'
+]
+
+export default movies

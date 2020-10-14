@@ -28,12 +28,12 @@ export default function Home() {
     <Container>
       <Content>
         <Header>
-            Movies
+            <h1 css={tw `text-4xl`}>Movies</h1>
         </Header>
         <MainContent>
           <div>
             {
-              genre ? <MoviesByGenre service={genre} key={genre.id}/> : null
+              genre ? <MoviesByGenre handleChange = {(name) => {console.log(name); send('SELECT', {name})}} service={genre} key={genre.id}/> : null
             }
           </div>
         </MainContent>
